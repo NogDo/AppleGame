@@ -1,48 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameStart : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
+    [Header("Screen")]
     public GameObject gameObject_MainScreen;
     public GameObject gameObject_GameScreen;
-    public GameObject gameObject_Panel_AppleNumbers;
-    public Image[] image_AppleNumbers;
-    public Sprite[] sprites_AppleNumber;
 
-    public void OnStartButtonPress()
+    [Header("Time")]
+    public Slider slider_Time;
+    public TextMeshProUGUI textMeshPro_Time;
+
+    [Header("Score")]
+    public TextMeshProUGUI textMeshPro_Score;
+
+    public void InitUIManager(int nTotalGameTime)
+    {
+        slider_Time.value = nTotalGameTime;
+    }
+
+    public void OnPressStartButton()
     {
         gameObject_MainScreen.SetActive(false);
         gameObject_GameScreen.SetActive(true);
-        ArrangeAppleRandom();
     }
 
-    public void ArrangeAppleRandom()
+    public void ChageTime()
     {
-        int[] intArr_AppleNumberCount = { 18, 18, 18, 18, 18, 18, 18, 18, 18 };
+        int nTime = (int)slider_Time.value;
+        textMeshPro_Time.text = "Time : " + nTime.ToString();
+    }
 
-        for(int i = 0; i < image_AppleNumbers.Count(); i++)
-        {
-            image_AppleNumbers[i] = gameObject_Panel_AppleNumbers.transform.GetChild(i).GetComponent<Image>();
-        }
-
-        for (int i = 0; i < image_AppleNumbers.Count(); i++)
-        {
-            while (true)
-            {
-                int number = Random.Range(0, 9);
-
-                if (intArr_AppleNumberCount[number] == 0)
-                {
-                    continue;
-                }
-
-                image_AppleNumbers[i].sprite = sprites_AppleNumber[number];
-                intArr_AppleNumberCount[number]--;
-                break;
-            }
-        }
+    public void ChangeScore(int nScore)
+    {
+        textMeshPro_Score.text = "Score : " + nScore.ToString();
     }
 }
