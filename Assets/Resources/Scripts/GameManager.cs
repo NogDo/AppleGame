@@ -8,18 +8,18 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [Header("AppleNumber")]
-    public GameObject gameObject_Panel_AppleNumbers;
-    public GameObject[] gameObject_AppleNumbers;
-    public Sprite[] sprites_AppleNumber;
+    public GameObject       gameObject_Panel_AppleNumbers;
+    public GameObject[]     gameObject_AppleNumbers;
+    public Sprite[]         sprites_AppleNumber;
 
     [Header("Manager")]
-    public UIManager UIManager;
-    public DragHandler dragHandler;
+    public UIManager        UIManager;
+    public DragHandler      dragHandler;
 
     // Time관련 변수들
-    private int nTotalGameTime;
-    private bool isTimeOver;
-    private float fDeltaTime;
+    private int             nTotalGameTime;
+    private bool            isTimeOver;
+    private float           fDeltaTime;
 
     // Score관련 변수들
     private int nScore;
@@ -48,15 +48,15 @@ public class GameManager : MonoBehaviour
 
     public void InitGameManager()
     {
-        // Time
-        nTotalGameTime = 120;
+        // Time관련 변수들 초기화
+        nTotalGameTime = 10;
         isTimeOver = false;
         fDeltaTime = 1.0f;
 
-        // Score
+        // Score 초기화
         nScore = 0;
 
-        // Manager
+        // Manager 초기화 & 사과가 랜덤으로 배치
         dragHandler.InitDragHandler();
         UIManager.InitUIManager(nTotalGameTime);
         ArrangeAppleRandom();
@@ -68,6 +68,11 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < gameObject_AppleNumbers.Count(); i++)
         {
+            if (gameObject_Panel_AppleNumbers.transform.GetChild(i).gameObject.activeSelf == false)
+            {
+                gameObject_Panel_AppleNumbers.transform.GetChild(i).gameObject.SetActive(true);
+            }
+
             gameObject_AppleNumbers[i] = gameObject_Panel_AppleNumbers.transform.GetChild(i).gameObject;
         }
 
@@ -83,8 +88,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 gameObject_AppleNumbers[i].GetComponent<Image>().sprite = sprites_AppleNumber[number];
-                gameObject_AppleNumbers[i].GetComponent<Apple>().SetAppleNumber(number + 1);
-                gameObject_AppleNumbers[i].GetComponent<Apple>().SetApplePos();
+                gameObject_AppleNumbers[i].GetComponent<Apple>().nApplNumber = number + 1;
                 intArr_AppleNumberCount[number]--;
                 break;
             }
@@ -97,7 +101,7 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject appleNumber in list_GameObject_Apples)
         {
-            sum += appleNumber.GetComponent<Apple>().GetAppleNumber();
+            sum += appleNumber.GetComponent<Apple>().nApplNumber;
         }
 
         if (sum == 10)
@@ -116,5 +120,8 @@ public class GameManager : MonoBehaviour
     public void TimeOver()
     {
         isTimeOver = true;
+        dragHandler.SetIsPlaying(false);
+        UIManager.SetResultScore(nScore);
+        UIManager.DisplayResultWindow();
     }
 }
