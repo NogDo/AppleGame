@@ -105,3 +105,9 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# 폰트 파일 (용량 큰 파일 Git 제외)
+/[Aa]ssets/10.Font/
+/[Aa]ssets/10.Font.meta
+/[Aa]ssets/TextMesh Pro/
+/[Aa]ssets/TextMesh Pro.meta
