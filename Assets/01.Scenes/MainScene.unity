@@ -847,7 +847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe4e19ecf2eeaf94b80799197534c4e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CAppleCreator
-  _canvas: {fileID: 1232638693}
+  canvas: {fileID: 1232638693}
   applePrefab: {fileID: -3682797983723798346, guid: 2753c9704a851434e9e83ffe887c7072, type: 3}
   rtApplePool: {fileID: 730499918}
 --- !u!1 &1322645023
