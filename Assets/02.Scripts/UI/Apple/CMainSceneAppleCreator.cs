@@ -14,7 +14,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
     private RectTransform _rt;
 
     // Pool 관련
-    private Queue<IAppleSetting> _qApplePool;
+    private IAppleSetting[] _arrApplePool;
     private int _nPoolInitSize = 200;
 
     #endregion
@@ -24,12 +24,11 @@ public class CMainSceneAppleCreator : MonoBehaviour
         _rt = GetComponent<RectTransform>();
 
         SetAnchor();
-        SetPool();
+        SetPoolAndArrange();
     }
 
     private void OnEnable()
     {
-        
     }
 
     /// <summary>
@@ -50,11 +49,11 @@ public class CMainSceneAppleCreator : MonoBehaviour
     }
 
     /// <summary>
-    /// Pool에 사과를 생성한다.
+    /// Pool에 사과를 생성하고 배치한다.
     /// </summary>
-    private void SetPool()
+    private void SetPoolAndArrange()
     {
-        _qApplePool = new Queue<IAppleSetting>(_nPoolInitSize);
+        _arrApplePool = new IAppleSetting[_nPoolInitSize];
         
         for (int i = 0; i < _nPoolInitSize; i++)
         {
@@ -62,7 +61,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
             apple.Init();
             apple.gameObject.SetActive(false);
 
-            _qApplePool.Enqueue(apple);
+            _arrApplePool[i] = apple;
         }
     }
 }
