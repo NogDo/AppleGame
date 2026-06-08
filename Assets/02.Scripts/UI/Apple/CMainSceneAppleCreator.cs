@@ -16,6 +16,8 @@ public class CMainSceneAppleCreator : MonoBehaviour
     // Pool 관련
     private IAppleSetting[] _arrApplePool;
     private int _nPoolInitSize = 200;
+    private int _nCols = 20;
+    private int _nRows = 10;
 
     #endregion
 
@@ -74,43 +76,23 @@ public class CMainSceneAppleCreator : MonoBehaviour
         Canvas.ForceUpdateCanvases();
 
         Vector2 poolSize = rtApplePool.rect.size;
-        float aspectRatio = poolSize.x / poolSize.y;
 
-        int bestCols = 1, bestRows = _nPoolInitSize;
-        float bestDiff = float.MaxValue;
+        float appleSize = Mathf.Min(poolSize.x / _nCols, poolSize.y / _nRows);
 
-        for (int cols = 1; cols <= _nPoolInitSize; cols++)
-        {
-            if (_nPoolInitSize % cols != 0) 
-            {
-                continue;
-            }
+        float spacingX = (poolSize.x - _nCols * appleSize) / (_nCols + 1);
+        float spacingY = (poolSize.y - _nRows * appleSize) / (_nRows + 1);
 
-            int rows = _nPoolInitSize / cols;
-            float diff = Mathf.Abs((float)cols / rows - aspectRatio);
-            if (diff < bestDiff)
-            {
-                bestDiff = diff;
-                bestCols = cols;
-                bestRows = rows;
-            }
-        }
-
-        float cellSize = Mathf.Min(poolSize.x / bestCols, poolSize.y / bestRows);
-        Vector2 appleSize = new Vector2(cellSize, cellSize);
-
-        float startX = -(bestCols * cellSize) / 2f + cellSize / 2f;
-        float startY =  (bestRows * cellSize) / 2f - cellSize / 2f;
+        Vector2 appleSizeVec = new Vector2(appleSize, appleSize);
 
         for (int i = 0; i < _nPoolInitSize; i++)
         {
-            int col = i % bestCols;
-            int row = i / bestCols;
+            int col = i % _nCols;
+            int row = i / _nCols;
 
-            float x = startX + col * cellSize;
-            float y = startY - row * cellSize;
+            float x = -poolSize.x / 2f + spacingX + col * (appleSize + spacingX) + appleSize / 2f;
+            float y =  poolSize.y / 2f - spacingY - row * (appleSize + spacingY) - appleSize / 2f;
 
-            _arrApplePool[i].SetLayout(new Vector2(x, y), appleSize);
+            _arrApplePool[i].SetLayout(new Vector2(x, y), appleSizeVec);
         }
     }
 }
