@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class CMainSceneAppleCreator : MonoBehaviour
 {
+    #region readonly 변수
+
+    private readonly int _nCols = 20;
+    private readonly int _nRows = 10;
+
+    #endregion
+
     #region private 변수
 
     [SerializeField] private Canvas canvas;
@@ -15,9 +22,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
 
     // Pool 관련
     private IAppleSetting[] _arrApplePool;
-    private int _nPoolInitSize = 200;
-    private int _nCols = 20;
-    private int _nRows = 10;
+    private int[] _nArrNumber;
 
     #endregion
 
@@ -32,6 +37,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
 
     private void OnEnable()
     {
+        NumberSetting();
     }
 
     /// <summary>
@@ -56,9 +62,11 @@ public class CMainSceneAppleCreator : MonoBehaviour
     /// </summary>
     private void SetPool()
     {
-        _arrApplePool = new IAppleSetting[_nPoolInitSize];
+        // 사과 풀 생성
+        int initPoolSize = _nCols * _nRows;
+        _arrApplePool = new IAppleSetting[initPoolSize];
 
-        for (int i = 0; i < _nPoolInitSize; i++)
+        for (int i = 0; i < initPoolSize; i++)
         {
             CMainSceneApple apple = Instantiate(applePrefab, rtApplePool);
             apple.Init();
@@ -66,6 +74,9 @@ public class CMainSceneAppleCreator : MonoBehaviour
 
             _arrApplePool[i] = apple;
         }
+
+        // 사과 번호 배열 생성
+        _nArrNumber = new int[initPoolSize];
     }
 
     /// <summary>
@@ -84,7 +95,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
 
         Vector2 appleSizeVec = new Vector2(appleSize, appleSize);
 
-        for (int i = 0; i < _nPoolInitSize; i++)
+        for (int i = 0; i < _nArrNumber.Length; i++)
         {
             int col = i % _nCols;
             int row = i / _nCols;
@@ -93,6 +104,55 @@ public class CMainSceneAppleCreator : MonoBehaviour
             float y =  poolSize.y / 2f - spacingY - row * (appleSize + spacingY) - appleSize / 2f;
 
             _arrApplePool[i].SetLayout(new Vector2(x, y), appleSizeVec);
+        }
+    }
+
+    /// <summary>
+    /// 사과의 숫자를 세팅한다.
+    /// </summary>
+    private void NumberSetting()
+    {
+        // 숫자 셔플
+        Shuffle();
+
+        // 사과에 번호 할당
+        for (int i = 0; i < _nArrNumber.Length; i++)
+        {
+            _arrApplePool[i].Numbering(_nArrNumber[i]);
+        }
+    }
+
+    /// <summary>
+    /// 번호 셔플
+    /// </summary>
+    private void Shuffle()
+    {
+        // 1 ~ 9까지 번호 할당
+        int numberCount = _nCols * _nRows / 9;
+        for (int i = 0; i < 9; i++)
+        {
+            int number = i * numberCount;
+
+            for (int j = 0; j < numberCount; j++)
+            {
+                _nArrNumber[number + j] = i + 1;
+            }
+        }
+
+        // 번호할당 후 남은 2개의 공간은 1 ~ 5하나, 10에서 첫번째 숫자를 뺀 수 하나를 넣는다.
+        int randNum = Random.Range(1, 6);
+        _nArrNumber[_nArrNumber.Length - 2] = randNum;
+        _nArrNumber[_nArrNumber.Length - 1] = 10 - randNum;
+
+        // 번호를 섞는다.
+        // Fisher-Yates Shuffle 알고리즘
+        for (int i = _nArrNumber.Length - 1; i > 0; i--)
+        {
+            int randIndex = Random.Range(0, i + 1);
+
+            int temp = _nArrNumber[i];
+            _nArrNumber[i] = _nArrNumber[randIndex];
+            _nArrNumber[randIndex] = temp;
         }
     }
 }

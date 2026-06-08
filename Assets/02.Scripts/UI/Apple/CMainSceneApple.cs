@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class CMainSceneApple : MonoBehaviour, IAppleSetting
 
     private RectTransform _rt;
     private Image _img;
+    private TextMeshProUGUI _tmpNumber;
 
     #endregion
 
@@ -23,12 +25,12 @@ public class CMainSceneApple : MonoBehaviour, IAppleSetting
     public void Numbering(int number)
     {
         Number = number;
+
+        _tmpNumber.text = Number.ToString();
     }
 
     public void SetLayout(Vector2 position, Vector2 size)
     {
-        
-
         _rt.localPosition = position;
         _rt.sizeDelta = size;
     }
@@ -40,5 +42,6 @@ public class CMainSceneApple : MonoBehaviour, IAppleSetting
     {
         _img = GetComponent<Image>();
         _rt = GetComponent<RectTransform>();
+        _tmpNumber = GetComponentInChildren<TextMeshProUGUI>(true);
     }
 }
