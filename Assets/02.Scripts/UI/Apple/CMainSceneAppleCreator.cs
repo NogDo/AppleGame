@@ -56,19 +56,18 @@ public class CMainSceneAppleCreator : MonoBehaviour
     private void SetPool()
     {
         // 사과 풀 생성
-        _arrApplePool = new IAppleSetting[GameRule.AppleCount];
+        _arrApplePool = new IAppleSetting[GameRule.MainSceneAppleCount];
 
-        for (int i = 0; i < GameRule.AppleCount; i++)
+        for (int i = 0; i < GameRule.MainSceneAppleCount; i++)
         {
             CMainSceneApple apple = Instantiate(applePrefab, rtApplePool);
             apple.Init();
-            // apple.gameObject.SetActive(false);
 
             _arrApplePool[i] = apple;
         }
 
         // 사과 번호 배열 생성
-        _nArrNumber = new int[GameRule.AppleCount];
+        _nArrNumber = new int[GameRule.MainSceneAppleCount];
     }
 
     /// <summary>
@@ -80,17 +79,17 @@ public class CMainSceneAppleCreator : MonoBehaviour
 
         Vector2 poolSize = rtApplePool.rect.size;
 
-        float appleSize = Mathf.Min(poolSize.x / GameRule.Cols, poolSize.y / GameRule.Rows);
+        float appleSize = Mathf.Min(poolSize.x / GameRule.MainSceneCols, poolSize.y / GameRule.MainSceneRows);
 
-        float spacingX = (poolSize.x - GameRule.Cols * appleSize) / (GameRule.Cols + 1);
-        float spacingY = (poolSize.y - GameRule.Rows * appleSize) / (GameRule.Rows + 1);
+        float spacingX = (poolSize.x - GameRule.MainSceneCols * appleSize) / (GameRule.MainSceneCols + 1);
+        float spacingY = (poolSize.y - GameRule.MainSceneRows * appleSize) / (GameRule.MainSceneRows + 1);
 
         Vector2 appleSizeVec = new Vector2(appleSize, appleSize);
 
         for (int i = 0; i < _nArrNumber.Length; i++)
         {
-            int col = i % GameRule.Cols;
-            int row = i / GameRule.Cols;
+            int col = i % GameRule.MainSceneCols;
+            int row = i / GameRule.MainSceneCols;
 
             float x = -poolSize.x / 2f + spacingX + col * (appleSize + spacingX) + appleSize / 2f;
             float y =  poolSize.y / 2f - spacingY - row * (appleSize + spacingY) - appleSize / 2f;
@@ -120,7 +119,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
     private void Shuffle()
     {
         // 1 ~ 9까지 번호 할당
-        int numberCount = GameRule.AppleCount / 9;
+        int numberCount = GameRule.MainSceneAppleCount / 9;
         for (int i = 0; i < 9; i++)
         {
             int number = i * numberCount;

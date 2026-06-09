@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2020037996863763474}
   - component: {fileID: 728065833055224159}
+  - component: {fileID: 5614288975027119789}
   m_Layer: 0
   m_Name: Spr_Apple
   m_TagString: Untagged
@@ -92,6 +93,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &5614288975027119789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298493814770067271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f15571eb5a089c84581cb0c98cb729e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CGameSceneApple
 --- !u!1 &5793234178174903920
 GameObject:
   m_ObjectHideFlags: 0
