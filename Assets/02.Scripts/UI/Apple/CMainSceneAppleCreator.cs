@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class CMainSceneAppleCreator : MonoBehaviour
 {
-    #region readonly 변수
-
-    private readonly int _nCols = 20;
-    private readonly int _nRows = 10;
-
-    #endregion
-
     #region private 변수
 
     [SerializeField] private Canvas canvas;
@@ -63,10 +56,9 @@ public class CMainSceneAppleCreator : MonoBehaviour
     private void SetPool()
     {
         // 사과 풀 생성
-        int initPoolSize = _nCols * _nRows;
-        _arrApplePool = new IAppleSetting[initPoolSize];
+        _arrApplePool = new IAppleSetting[GameRule.AppleCount];
 
-        for (int i = 0; i < initPoolSize; i++)
+        for (int i = 0; i < GameRule.AppleCount; i++)
         {
             CMainSceneApple apple = Instantiate(applePrefab, rtApplePool);
             apple.Init();
@@ -76,7 +68,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
         }
 
         // 사과 번호 배열 생성
-        _nArrNumber = new int[initPoolSize];
+        _nArrNumber = new int[GameRule.AppleCount];
     }
 
     /// <summary>
@@ -88,17 +80,17 @@ public class CMainSceneAppleCreator : MonoBehaviour
 
         Vector2 poolSize = rtApplePool.rect.size;
 
-        float appleSize = Mathf.Min(poolSize.x / _nCols, poolSize.y / _nRows);
+        float appleSize = Mathf.Min(poolSize.x / GameRule.Cols, poolSize.y / GameRule.Rows);
 
-        float spacingX = (poolSize.x - _nCols * appleSize) / (_nCols + 1);
-        float spacingY = (poolSize.y - _nRows * appleSize) / (_nRows + 1);
+        float spacingX = (poolSize.x - GameRule.Cols * appleSize) / (GameRule.Cols + 1);
+        float spacingY = (poolSize.y - GameRule.Rows * appleSize) / (GameRule.Rows + 1);
 
         Vector2 appleSizeVec = new Vector2(appleSize, appleSize);
 
         for (int i = 0; i < _nArrNumber.Length; i++)
         {
-            int col = i % _nCols;
-            int row = i / _nCols;
+            int col = i % GameRule.Cols;
+            int row = i / GameRule.Cols;
 
             float x = -poolSize.x / 2f + spacingX + col * (appleSize + spacingX) + appleSize / 2f;
             float y =  poolSize.y / 2f - spacingY - row * (appleSize + spacingY) - appleSize / 2f;
@@ -128,7 +120,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
     private void Shuffle()
     {
         // 1 ~ 9까지 번호 할당
-        int numberCount = _nCols * _nRows / 9;
+        int numberCount = GameRule.AppleCount / 9;
         for (int i = 0; i < 9; i++)
         {
             int number = i * numberCount;
