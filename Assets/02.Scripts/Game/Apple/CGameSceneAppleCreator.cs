@@ -36,11 +36,11 @@ public class CGameSceneAppleCreator : MonoBehaviour
         Rect safeArea = Screen.safeArea;
         Camera mainCamera = Camera.main;
 
-        Vector3 bottomLeft = mainCamera.ScreenToWorldPoint(new Vector3(safeArea.xMin, safeArea.yMin, -mainCamera.transform.position.z));
-        Vector3 topRight = mainCamera.ScreenToWorldPoint(new Vector3(safeArea.xMax, safeArea.yMax, -mainCamera.transform.position.z));
+        Vector3 leftTop = mainCamera.ScreenToWorldPoint(new Vector3(safeArea.xMin, safeArea.yMax, -mainCamera.transform.position.z));
+        Vector3 rightBottom = mainCamera.ScreenToWorldPoint(new Vector3(safeArea.xMax, safeArea.yMin, -mainCamera.transform.position.z));
 
-        _v3GridLeftTop     = Vector3.Lerp(bottomLeft, topRight, 0.1f);
-        _v3GridRightBottom = Vector3.Lerp(bottomLeft, topRight, 0.9f);
+        _v3GridLeftTop = Vector3.Lerp(leftTop, rightBottom, 0.1f);
+        _v3GridRightBottom = Vector3.Lerp(leftTop, rightBottom, 0.9f);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class CGameSceneAppleCreator : MonoBehaviour
     private void SetPool()
     {
         // 사과 풀 생성
-        _arrApplePool = new IAppleSetting[GameRule.MainSceneAppleCount];
+        _arrApplePool = new IAppleSetting[GameRule.GameSceneAppleCount];
 
         for (int i = 0; i < GameRule.MainSceneAppleCount; i++)
         {
@@ -59,8 +59,10 @@ public class CGameSceneAppleCreator : MonoBehaviour
             _arrApplePool[i] = apple;
         }
 
+        
+
         // 사과 번호 배열 생성
-        _nArrNumber = new int[GameRule.MainSceneAppleCount];
+        _nArrNumber = new int[GameRule.GameSceneAppleCount];
     }
 
     /// <summary>
@@ -68,7 +70,34 @@ public class CGameSceneAppleCreator : MonoBehaviour
     /// </summary>
     private void ArrangeInGrid()
     {
-        
+        // 사과 Scale값 구하기
+        float gridWidth = _v3GridRightBottom.x - _v3GridLeftTop.x;
+        float gridHeight = _v3GridLeftTop.y - _v3GridRightBottom.y;
+
+        float cellWidth = gridWidth / GameRule.GameSceneCols;
+        float cellHeight = gridHeight / GameRule.GameSceneRows;
+
+        CGameSceneApple apple = _arrApplePool[0] as CGameSceneApple;
+        Vector2 nativeSize = apple.GetComponent<SpriteRenderer>().sprite.bounds.size;
+
+        float scale = Mathf.Min(cellWidth / nativeSize.x, cellHeight / nativeSize.y);
+        Vector2 appleScale = new Vector3(scale, scale);
+
+        // 배치
+        int index = 0;
+        for (int row = 0; row < GameRule.GameSceneRows; row++)
+        {
+            for (int col = 0; col < GameRule.GameSceneCols; col++)
+            {
+                float x = _v3GridLeftTop.x + cellWidth * col + cellWidth * 0.5f;
+                float y = _v3GridLeftTop.y - cellHeight * row - cellHeight * 0.5f;
+
+                Vector2 position = new Vector2(x, y);
+
+                _arrApplePool[index].SetLayout(position, appleScale);
+                index++;
+            }
+        }
     }
 
     /// <summary>
@@ -78,6 +107,12 @@ public class CGameSceneAppleCreator : MonoBehaviour
     {
         // 숫자 셔플
         Shuffle();
+
+        // 사과에 번호 할당
+        for (int i = 0; i < _nArrNumber.Length; i++)
+        {
+            _arrApplePool[i].Numbering(_nArrNumber[i]);
+        }
     }
 
     /// <summary>
@@ -85,6 +120,32 @@ public class CGameSceneAppleCreator : MonoBehaviour
     /// </summary>
     private void Shuffle()
     {
-        
+         // 1 ~ 9까지 번호 할당
+        int numberCount = GameRule.GameSceneAppleCount / 9;
+        for (int i = 0; i < 9; i++)
+        {
+            int number = i * numberCount;
+
+            for (int j = 0; j < numberCount; j++)
+            {
+                _nArrNumber[number + j] = i + 1;
+            }
+        }
+
+        // 번호할당 후 남은 2개의 공간은 1 ~ 5하나, 10에서 첫번째 숫자를 뺀 수 하나를 넣는다.
+        int randNum = Random.Range(1, 6);
+        _nArrNumber[_nArrNumber.Length - 2] = randNum;
+        _nArrNumber[_nArrNumber.Length - 1] = 10 - randNum;
+
+        // 번호를 섞는다.
+        // Fisher-Yates Shuffle 알고리즘
+        for (int i = _nArrNumber.Length - 1; i > 0; i--)
+        {
+            int randIndex = Random.Range(0, i + 1);
+
+            int temp = _nArrNumber[i];
+            _nArrNumber[i] = _nArrNumber[randIndex];
+            _nArrNumber[randIndex] = temp;
+        }
     }
 }
