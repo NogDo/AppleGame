@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -5,7 +6,18 @@ using UnityEngine;
 /// </summary>
 public class GameManager : BaseSingleton<GameManager>
 {
-    #region 유니티 메시지
+    #region public 변수
+
+    public event Action OnGameStart;
+
+    #endregion
+
+    #region  private 변수
+
+
+
+    #endregion
+
     protected override void Awake()
     {
         base.Awake();
@@ -20,5 +32,12 @@ public class GameManager : BaseSingleton<GameManager>
     {
         base.OnDestroy();
     }
-    #endregion
+
+    /// <summary>
+    /// 사과 게임 시작
+    /// </summary>
+    public void GameStart()
+    {
+        OnGameStart?.Invoke();
+    }
 }

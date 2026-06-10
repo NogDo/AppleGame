@@ -28,6 +28,13 @@ public class CGameSceneAppleCreator : MonoBehaviour
         NumberSetting();
     }
 
+    private void Start()
+    {
+        GameManager.Instance.OnGameStart += EnableAppleCreator;
+
+        gameObject.SetActive(false);
+    }
+
     /// <summary>
     /// Apple Grid 정렬할 공간 위치값 설정
     /// </summary>
@@ -58,8 +65,6 @@ public class CGameSceneAppleCreator : MonoBehaviour
 
             _arrApplePool[i] = apple;
         }
-
-        
 
         // 사과 번호 배열 생성
         _nArrNumber = new int[GameRule.GameSceneAppleCount];
@@ -147,5 +152,13 @@ public class CGameSceneAppleCreator : MonoBehaviour
             _nArrNumber[i] = _nArrNumber[randIndex];
             _nArrNumber[randIndex] = temp;
         }
+    }
+
+    /// <summary>
+    /// AppleCreator를 비활성화한다.
+    /// </summary>
+    private void EnableAppleCreator()
+    {
+        gameObject.SetActive(true);
     }
 }
