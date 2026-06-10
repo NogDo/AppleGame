@@ -1,12 +1,24 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 
 public class CDragController : MonoBehaviour
 {
+    #region public 변수
+
+    public event Action<Rect> OnDrag;
+    public event Action<Rect> OnDragEnd;
+
+    #endregion
+
     #region private 변수
 
-    // 드래그 위치
+    // 드래그 관련
     private Vector2 _v2StartPosition;
     private Vector2 _v2EndPosition;
+    private Rect _rectDragArea;
+    private int _nActiveFingerId = -1;
 
     // 메인 카메라
     private Camera _camMain;
@@ -18,22 +30,46 @@ public class CDragController : MonoBehaviour
         _camMain = Camera.main;
     }
 
+    private void OnEnable()
+    {
+        EnhancedTouch.EnhancedTouchSupport.Enable();
+    }
+
+    private void OnDisable()
+    {
+        EnhancedTouch.EnhancedTouchSupport.Disable();
+    }
+
     private void Update()
     {
-        // 드래그 시작
-        if (Input.GetMouseButtonDown(0))
+        // 터치 가져오기
+        var touches = EnhancedTouch.Touch.activeTouches;
+
+        // 첫번재 터치만 유효하도록
+        foreach (var touch in touches)
         {
-            DragStart();
-        }
-        // 드래그
-        else if (Input.GetMouseButton(0))
-        {
-            Drag();
-        }
-        // 드래그 종료
-        else if (Input.GetMouseButtonUp(0))
-        {
-            DragEnd();
+            // 첫 터치만 등록
+            if (_nActiveFingerId == -1 && touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
+            {
+                _nActiveFingerId = touch.finger.index;
+                DragStart();
+            }
+            // 첫 터치만 드래그 처리
+            else if (touch.finger.index == _nActiveFingerId)
+            {
+                // 드래그
+                if (touch.phase == UnityEngine.InputSystem.TouchPhase.Moved)
+                {
+                    Drag();
+                }
+                // 드래그 종료
+                else if (touch.phase == UnityEngine.InputSystem.TouchPhase.Ended)
+                {
+                    DragEnd();
+
+                    _nActiveFingerId = -1;
+                }
+            }
         }
     }
 
@@ -53,6 +89,12 @@ public class CDragController : MonoBehaviour
     private void Drag()
     {
         _v2EndPosition = GetWorldPosition();
+
+        Vector2 min = Vector2.Min(_v2StartPosition, _v2EndPosition);
+        Vector2 max = Vector2.Max(_v2StartPosition, _v2EndPosition);
+        _rectDragArea = new Rect(min, max - min);
+
+        OnDrag?.Invoke(_rectDragArea);
     }
 
     /// <summary>
@@ -62,14 +104,19 @@ public class CDragController : MonoBehaviour
     private void DragEnd()
     {
         _v2EndPosition = GetWorldPosition();
+
+        Vector2 min = Vector2.Min(_v2StartPosition, _v2EndPosition);
+        Vector2 max = Vector2.Max(_v2StartPosition, _v2EndPosition);
+        _rectDragArea = new Rect(min, max - min);
+
+        OnDragEnd?.Invoke(_rectDragArea);
     }
 
     /// <summary>
-    /// 마우스 좌표를 월드 좌표로 변환
+    /// 포인터 좌표를 월드 좌표로 변환
     /// </summary>
-    /// <returns></returns>
     private Vector2 GetWorldPosition()
     {
-        return _camMain.ScreenToWorldPoint(Input.mousePosition);
+        return _camMain.ScreenToWorldPoint(Pointer.current.position.ReadValue());
     }
 }

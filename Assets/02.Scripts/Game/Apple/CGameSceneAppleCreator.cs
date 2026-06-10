@@ -4,14 +4,19 @@ public class CGameSceneAppleCreator : MonoBehaviour
 {
     #region private 변수
 
+    [Header("생성할 사과 프리팹")]
     [SerializeField] private CGameSceneApple applePrefab;
+
+    [Header("사과가 생성될 공간")]
+
+    [SerializeField] private Transform tfAppleParent;
 
     // 배치 관련
     private Vector3 _v3GridLeftTop;
     private Vector3 _v3GridRightBottom;
 
     // 사과 Pool
-    private IAppleSetting[] _arrApplePool;
+    private CGameSceneApple[] _arrApplePool;
     private int[] _nArrNumber;
 
     #endregion
@@ -56,7 +61,7 @@ public class CGameSceneAppleCreator : MonoBehaviour
     private void SetPool()
     {
         // 사과 풀 생성
-        _arrApplePool = new IAppleSetting[GameRule.GameSceneAppleCount];
+        _arrApplePool = new CGameSceneApple[GameRule.GameSceneAppleCount];
 
         for (int i = 0; i < GameRule.MainSceneAppleCount; i++)
         {
@@ -82,7 +87,7 @@ public class CGameSceneAppleCreator : MonoBehaviour
         float cellWidth = gridWidth / GameRule.GameSceneCols;
         float cellHeight = gridHeight / GameRule.GameSceneRows;
 
-        CGameSceneApple apple = _arrApplePool[0] as CGameSceneApple;
+        CGameSceneApple apple = _arrApplePool[0];
         Vector2 nativeSize = apple.GetComponent<SpriteRenderer>().sprite.bounds.size;
 
         float scale = Mathf.Min(cellWidth / nativeSize.x, cellHeight / nativeSize.y);
@@ -160,5 +165,14 @@ public class CGameSceneAppleCreator : MonoBehaviour
     private void EnableAppleCreator()
     {
         gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// 생성된 Apple 배열을 반환한다.
+    /// </summary>
+    /// <returns></returns>
+    public CGameSceneApple[] GetApples()
+    {
+        return _arrApplePool;
     }
 }

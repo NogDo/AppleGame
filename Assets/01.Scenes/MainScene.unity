@@ -1190,6 +1190,52 @@ MonoBehaviour:
   canvas: {fileID: 1232638693}
   applePrefab: {fileID: -3682797983723798346, guid: 2753c9704a851434e9e83ffe887c7072, type: 3}
   rtApplePool: {fileID: 730499918}
+--- !u!1 &1297861015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1297861017}
+  - component: {fileID: 1297861016}
+  m_Layer: 0
+  m_Name: GameSceneAppleSelector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1297861016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297861015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60c447f43add7cf4fb257caac6a939a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CGameSceneAppleSelector
+  appleCreator: {fileID: 1386583121}
+  dragController: {fileID: 1911463683}
+--- !u!4 &1297861017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297861015}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1322645023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,6 +1360,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CGameSceneAppleCreator
   applePrefab: {fileID: 5614288975027119789, guid: e0bf691ee3e9a114f9c3f9e05e01b5a2, type: 3}
+  tfAppleParent: {fileID: 1297861017}
+--- !u!1 &1911463681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1911463682}
+  - component: {fileID: 1911463683}
+  m_Layer: 0
+  m_Name: DragController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1911463682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911463681}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1911463683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911463681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 923f555784dd2074f8b4289009827473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CDragController
 --- !u!1 &2017722199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,6 +1524,8 @@ SceneRoots:
   - {fileID: 574077229}
   - {fileID: 235547381}
   - {fileID: 1386583120}
+  - {fileID: 1297861017}
+  - {fileID: 1911463682}
   - {fileID: 644620017}
   - {fileID: 878657560}
   - {fileID: 2017722200}
