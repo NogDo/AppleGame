@@ -65,7 +65,7 @@ public class CGameSceneAppleCreator : MonoBehaviour
 
         for (int i = 0; i < GameRule.MainSceneAppleCount; i++)
         {
-            CGameSceneApple apple = Instantiate(applePrefab, transform);
+            CGameSceneApple apple = Instantiate(applePrefab, tfAppleParent);
             apple.Init();
 
             _arrApplePool[i] = apple;
@@ -80,31 +80,27 @@ public class CGameSceneAppleCreator : MonoBehaviour
     /// </summary>
     private void ArrangeInGrid()
     {
-        // 사과 Scale값 구하기
-        float gridWidth = _v3GridRightBottom.x - _v3GridLeftTop.x;
-        float gridHeight = _v3GridLeftTop.y - _v3GridRightBottom.y;
+        float safeWidth  = _v3GridRightBottom.x - _v3GridLeftTop.x;
+        float safeHeight = _v3GridLeftTop.y - _v3GridRightBottom.y;
 
-        float cellWidth = gridWidth / GameRule.GameSceneCols;
-        float cellHeight = gridHeight / GameRule.GameSceneRows;
+        float appleSize = Mathf.Min(safeWidth / GameRule.GameSceneCols, safeHeight / GameRule.GameSceneRows);
 
-        CGameSceneApple apple = _arrApplePool[0];
-        Vector2 nativeSize = apple.GetComponent<SpriteRenderer>().sprite.bounds.size;
+        float spacingX = (safeWidth  - GameRule.GameSceneCols * appleSize) / (GameRule.GameSceneCols + 1);
+        float spacingY = (safeHeight - GameRule.GameSceneRows * appleSize) / (GameRule.GameSceneRows + 1);
 
-        float scale = Mathf.Min(cellWidth / nativeSize.x, cellHeight / nativeSize.y);
-        Vector2 appleScale = new Vector3(scale, scale);
+        Vector2 nativeSize = _arrApplePool[0].GetComponent<SpriteRenderer>().sprite.bounds.size;
+        float scale = appleSize / Mathf.Max(nativeSize.x, nativeSize.y);
+        Vector2 appleScale = new(scale, scale);
 
-        // 배치
         int index = 0;
         for (int row = 0; row < GameRule.GameSceneRows; row++)
         {
             for (int col = 0; col < GameRule.GameSceneCols; col++)
             {
-                float x = _v3GridLeftTop.x + cellWidth * col + cellWidth * 0.5f;
-                float y = _v3GridLeftTop.y - cellHeight * row - cellHeight * 0.5f;
+                float x = _v3GridLeftTop.x + spacingX + col * (appleSize + spacingX) + appleSize * 0.5f;
+                float y = _v3GridLeftTop.y - spacingY - row * (appleSize + spacingY) - appleSize * 0.5f;
 
-                Vector2 position = new Vector2(x, y);
-
-                _arrApplePool[index].SetLayout(position, appleScale);
+                _arrApplePool[index].SetLayout(new Vector2(x, y), appleScale);
                 index++;
             }
         }
