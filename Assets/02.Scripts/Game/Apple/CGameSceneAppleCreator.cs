@@ -80,6 +80,7 @@ public class CGameSceneAppleCreator : MonoBehaviour
     /// </summary>
     private void ArrangeInGrid()
     {
+        // 사과 크기 및 배치 간격 구하기
         float safeWidth  = _v3GridRightBottom.x - _v3GridLeftTop.x;
         float safeHeight = _v3GridLeftTop.y - _v3GridRightBottom.y;
 
@@ -92,6 +93,7 @@ public class CGameSceneAppleCreator : MonoBehaviour
         float scale = appleSize / Mathf.Max(nativeSize.x, nativeSize.y);
         Vector2 appleScale = new(scale, scale);
 
+        // 배치
         int index = 0;
         for (int row = 0; row < GameRule.GameSceneRows; row++)
         {
