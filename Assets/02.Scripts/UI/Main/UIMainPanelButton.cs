@@ -16,6 +16,14 @@ public class UIMainPanelButton : MonoBehaviour
         GameManager.Instance.OnGameStart += DisableMainPanel;
     }
 
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameStart -= DisableMainPanel;
+        }
+    }
+
     /// <summary>
     /// 메인 패널 비활성화
     /// </summary>

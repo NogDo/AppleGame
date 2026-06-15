@@ -40,6 +40,14 @@ public class CGameSceneAppleCreator : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameStart -= EnableAppleCreator;
+        }
+    }
+
     /// <summary>
     /// Apple Grid 정렬할 공간 위치값 설정
     /// </summary>

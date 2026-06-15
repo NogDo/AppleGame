@@ -14,6 +14,8 @@ public class CDragController : MonoBehaviour
 
     #region private 변수
 
+    [SerializeField] private SpriteRenderer sprDragArea;
+
     // 드래그 관련
     private Vector2 _v2StartPosition;
     private Vector2 _v2EndPosition;
@@ -30,6 +32,14 @@ public class CDragController : MonoBehaviour
         _camMain = Camera.main;
     }
 
+    private void Start()
+    {
+        GameManager.Instance.OnGameStart += OnGameStart;
+        GameManager.Instance.OnGameEnd += OnGameEnd;
+
+        gameObject.SetActive(false);
+    }
+
     private void OnEnable()
     {
         EnhancedTouch.EnhancedTouchSupport.Enable();
@@ -38,6 +48,15 @@ public class CDragController : MonoBehaviour
     private void OnDisable()
     {
         EnhancedTouch.EnhancedTouchSupport.Disable();
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameStart -= OnGameStart;
+            GameManager.Instance.OnGameEnd -= OnGameEnd;
+        }
     }
 
     private void Update()
@@ -81,6 +100,8 @@ public class CDragController : MonoBehaviour
     {
         _v2StartPosition = GetWorldPosition();
         _v2EndPosition = GetWorldPosition();
+
+        sprDragArea.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -93,6 +114,8 @@ public class CDragController : MonoBehaviour
         Vector2 min = Vector2.Min(_v2StartPosition, _v2EndPosition);
         Vector2 max = Vector2.Max(_v2StartPosition, _v2EndPosition);
         _rectDragArea = new Rect(min, max - min);
+
+        UpdateDragAreaVisual(_rectDragArea);
 
         OnDrag?.Invoke(_rectDragArea);
     }
@@ -109,7 +132,20 @@ public class CDragController : MonoBehaviour
         Vector2 max = Vector2.Max(_v2StartPosition, _v2EndPosition);
         _rectDragArea = new Rect(min, max - min);
 
+        sprDragArea.gameObject.SetActive(false);
+        sprDragArea.size = Vector2.zero;
+
         OnDragEnd?.Invoke(_rectDragArea);
+    }
+
+    /// <summary>
+    /// 드래그 영역 SpriteRenderer를 Rect에 맞게 업데이트
+    /// </summary>
+    /// <param name="rect">Drag 영역 Rect</param>
+    private void UpdateDragAreaVisual(Rect rect)
+    {
+        sprDragArea.transform.position = rect.center;
+        sprDragArea.size = new Vector2(rect.width, rect.height);
     }
 
     /// <summary>
@@ -118,5 +154,21 @@ public class CDragController : MonoBehaviour
     private Vector2 GetWorldPosition()
     {
         return _camMain.ScreenToWorldPoint(Pointer.current.position.ReadValue());
+    }
+
+    /// <summary>
+    /// 게임 시작시 동작
+    /// </summary>
+    private void OnGameStart()
+    {
+        gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// 게임 종료시 동작
+    /// </summary>
+    private void OnGameEnd()
+    {
+        gameObject.SetActive(false);
     }
 }

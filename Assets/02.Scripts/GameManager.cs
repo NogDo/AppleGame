@@ -9,6 +9,7 @@ public class GameManager : BaseSingleton<GameManager>
     #region public 변수
 
     public event Action OnGameStart;
+    public event Action OnGameEnd;
 
     #endregion
 
@@ -39,5 +40,13 @@ public class GameManager : BaseSingleton<GameManager>
     public void GameStart()
     {
         OnGameStart?.Invoke();
+    }
+
+    /// <summary>
+    /// 사과 게임 종료
+    /// </summary>
+    public void GameEnd()
+    {
+        
     }
 }
