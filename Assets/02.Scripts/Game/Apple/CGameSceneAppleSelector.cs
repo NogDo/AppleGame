@@ -55,6 +55,11 @@ public class CGameSceneAppleSelector : MonoBehaviour
             {
                 arrApple[i].SetMaterial(matOutline);
             }
+
+            else
+            {
+                arrApple[i].SetMaterial(matDefault);
+            }
         }
     }
 
