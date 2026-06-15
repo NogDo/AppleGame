@@ -6,6 +6,7 @@ public class CGameSceneApple : MonoBehaviour, IAppleSetting
     #region private 변수
 
     private TextMeshPro _tmpNumber;
+    private SpriteRenderer _spriteRenderer;
 
     #endregion
 
@@ -38,5 +39,20 @@ public class CGameSceneApple : MonoBehaviour, IAppleSetting
     public void Init()
     {
         _tmpNumber = GetComponentInChildren<TextMeshPro>(true);
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    /// <summary>
+    /// Material을 적용한다.
+    /// </summary>
+    /// <param name="mat">적용할 Material</param>
+    public void SetMaterial(Material mat)
+    {
+        if (_spriteRenderer.sharedMaterial == mat)
+        {
+            return;
+        }
+
+        _spriteRenderer.sharedMaterial = mat;
     }
 }

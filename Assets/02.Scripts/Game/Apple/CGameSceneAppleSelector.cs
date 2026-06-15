@@ -4,8 +4,13 @@ public class CGameSceneAppleSelector : MonoBehaviour
 {
     #region private 변수
 
+    [Header ("드래그 관련")]
     [SerializeField] private CGameSceneAppleCreator appleCreator;
     [SerializeField] private CDragController dragController;
+
+    [Header ("Material")]
+    [SerializeField] private Material matDefault;
+    [SerializeField] private Material matOutline;
 
     private CGameSceneApple[] arrApple;
 
@@ -29,7 +34,7 @@ public class CGameSceneAppleSelector : MonoBehaviour
         {
             if (dragArea.Contains(arrApple[i].transform.localPosition))
             {
-                
+                arrApple[i].SetMaterial(matOutline);
             }
         }
     }
@@ -45,6 +50,7 @@ public class CGameSceneAppleSelector : MonoBehaviour
             if (dragArea.Contains(arrApple[i].transform.localPosition))
             {
                 arrApple[i].gameObject.SetActive(false);
+                arrApple[i].SetMaterial(matDefault);
             }
         }
     }
