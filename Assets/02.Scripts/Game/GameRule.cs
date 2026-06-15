@@ -14,6 +14,7 @@ public static class GameRule
     public static int GameSceneCols = 20;
     public static int GameSceneRows = 10;
     public static int GameSceneAppleCount = GameSceneCols * GameSceneRows;
+    public static int TargetNumber = 10;
 
     #endregion
 }

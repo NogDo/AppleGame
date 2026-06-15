@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CGameSceneAppleSelector : MonoBehaviour
@@ -13,6 +15,8 @@ public class CGameSceneAppleSelector : MonoBehaviour
     [SerializeField] private Material matOutline;
 
     private CGameSceneApple[] arrApple;
+
+    private List<CGameSceneApple> _listSelectedApple = new List<CGameSceneApple>(GameRule.GameSceneAppleCount);
 
     #endregion
 
@@ -60,13 +64,41 @@ public class CGameSceneAppleSelector : MonoBehaviour
     /// <param name="dragArea">드래그 영역</param>
     private void CheckScore(Rect dragArea)
     {
+        // 선택된 사과 리스트 Clear
+        _listSelectedApple.Clear();
+
+        int sum = 0;
+
+        // 영역 안 사과들의 총합을 구함
         for (int i = 0; i < arrApple.Length; i++)
         {
+            // 영역 안에 있는지 판단
             if (dragArea.Contains(arrApple[i].transform.localPosition))
             {
-                arrApple[i].gameObject.SetActive(false);
-                arrApple[i].SetMaterial(matDefault);
+                // 활성화된 사과인지 판단
+                if (arrApple[i].gameObject.activeSelf)
+                {
+                    sum += arrApple[i].Number;
+                    _listSelectedApple.Add(arrApple[i]);
+                }
             }
+        }
+
+        // 목표 숫자라면 비활성화
+        if (sum == GameRule.TargetNumber)
+        {
+            for (int i = 0; i < _listSelectedApple.Count; i++)
+            {
+                _listSelectedApple[i].gameObject.SetActive(false);
+            }
+
+            // TODO : 나중에 Score에 점수 추가 로직 구현
+        }
+
+        // Material을 일반으로 되돌리기
+        for (int i = 0; i < _listSelectedApple.Count; i++)
+        {
+            _listSelectedApple[i].SetMaterial(matDefault);
         }
     }
 
