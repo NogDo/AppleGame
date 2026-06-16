@@ -47,6 +47,6 @@ public class GameManager : BaseSingleton<GameManager>
     /// </summary>
     public void GameEnd()
     {
-        
+        OnGameEnd?.Invoke();
     }
 }
