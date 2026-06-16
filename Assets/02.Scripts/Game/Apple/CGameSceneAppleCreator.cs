@@ -35,7 +35,7 @@ public class CGameSceneAppleCreator : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnGameStart += EnableAppleCreator;
+        GameManager.Instance.OnGameStart += ActiveAppleCreator;
 
         gameObject.SetActive(false);
     }
@@ -44,7 +44,7 @@ public class CGameSceneAppleCreator : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.OnGameStart -= EnableAppleCreator;
+            GameManager.Instance.OnGameStart -= ActiveAppleCreator;
         }
     }
 
@@ -166,9 +166,9 @@ public class CGameSceneAppleCreator : MonoBehaviour
     }
 
     /// <summary>
-    /// AppleCreator를 비활성화한다.
+    /// AppleCreator를 활성화
     /// </summary>
-    private void EnableAppleCreator()
+    private void ActiveAppleCreator()
     {
         gameObject.SetActive(true);
     }

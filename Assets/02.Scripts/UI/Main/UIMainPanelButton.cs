@@ -13,21 +13,21 @@ public class UIMainPanelButton : MonoBehaviour
     {
         btnStart.onClick.AddListener(() => GameManager.Instance.GameStart());
 
-        GameManager.Instance.OnGameStart += DisableMainPanel;
+        GameManager.Instance.OnGameStart += InActiveMainPanel;
     }
 
     private void OnDestroy()
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.OnGameStart -= DisableMainPanel;
+            GameManager.Instance.OnGameStart -= InActiveMainPanel;
         }
     }
 
     /// <summary>
     /// 메인 패널 비활성화
     /// </summary>
-    private void DisableMainPanel()
+    private void InActiveMainPanel()
     {
         gameObject.SetActive(false);
     }
