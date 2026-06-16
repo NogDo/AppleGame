@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d00e476f3be93e541bbadb88d7ec8958
+guid: fd7860f5fc14c2643b5daeff5afb4d01
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5153523313097400493
-    second: pngegg (1)_0
+      213: -3103757545050556897
+    second: progressBarBase_black_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,11 +48,11 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 35, y: 25, z: 35, w: 25}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pngegg (1)_0
+      name: progressBarBase_black_0
       rect:
         serializedVersion: 2
-        x: 35
-        y: 25
-        width: 130
-        height: 150
+        x: 0
+        y: 0
+        width: 1053
+        height: 93
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 50, y: 0, z: 50, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 35f922de9d10b78b0800000000000000
-      internalID: -5153523313097400493
+      spriteID: f16b25a05fc3de4d0800000000000000
+      internalID: -3103757545050556897
       vertices: []
       indices: 
       edges: []
@@ -151,8 +151,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: 7bd6006d2860e2040a3095ad6483113d
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      pngegg (1)_0: -5153523313097400493
+      progressBarBase_black_0: -3103757545050556897
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

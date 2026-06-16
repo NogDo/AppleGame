@@ -27,7 +27,7 @@ public class CGameSceneAppleSelector : MonoBehaviour
         dragController.OnDrag += Select;
         dragController.OnDragEnd += CheckScore;
 
-        GameManager.Instance.OnGameStart += OnEnableAppleSelector;
+        GameManager.Instance.OnGameStart += ActiveAppleSelector;
 
         gameObject.SetActive(false);
     }
@@ -39,7 +39,7 @@ public class CGameSceneAppleSelector : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.OnGameStart -= OnEnableAppleSelector;
+            GameManager.Instance.OnGameStart -= ActiveAppleSelector;
         }
     }
 
@@ -110,7 +110,7 @@ public class CGameSceneAppleSelector : MonoBehaviour
     /// <summary>
     /// AppleSelector를 활성화한다.
     /// </summary>
-    private void OnEnableAppleSelector()
+    private void ActiveAppleSelector()
     {
         gameObject.SetActive(true);
     }
