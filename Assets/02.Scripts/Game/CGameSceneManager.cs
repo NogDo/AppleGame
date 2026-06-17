@@ -11,6 +11,19 @@ public class CGameSceneManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStart += OnGameStart;
+
+        Init();
+    }
+
+    /// <summary>
+    /// 어플리케이션 처음 시작시 초기화
+    /// </summary>
+    private void Init()
+    {
+        for (int i = 0; i < oArrGameSceneObject.Length; i++)
+        {
+            oArrGameSceneObject[i].SetActive(false);
+        }
     }
 
     /// <summary>

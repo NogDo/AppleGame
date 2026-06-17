@@ -13,8 +13,9 @@ public class UIPanelControl : MonoBehaviour
     {
         GameManager.Instance.OnGameStart += OnGameStart;
         GameManager.Instance.OnGameEnd += OnGameEnd;
-    }
 
+        Init();
+    }
 
     private void OnDestroy()
     {
@@ -22,6 +23,22 @@ public class UIPanelControl : MonoBehaviour
         {
             GameManager.Instance.OnGameStart -= OnGameStart;
             GameManager.Instance.OnGameEnd -= OnGameEnd;
+        }
+    }
+
+    /// <summary>
+    /// 어플리케이션 처음 실행시 초기화
+    /// </summary>
+    private void Init()
+    {
+        for (int i = 0; i < oArrMainPanel.Length;i ++)
+        {
+            oArrMainPanel[i].SetActive(true);
+        }
+
+        for (int i = 0; i < oArrGamePanel.Length; i++)
+        {
+            oArrGamePanel[i].SetActive(false);
         }
     }
 
