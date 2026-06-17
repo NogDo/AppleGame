@@ -35,7 +35,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnGameStart += DisableAppleCreator;
+        GameManager.Instance.OnGameStart += InActiveAppleCreator;
     }
 
     /// <summary>
@@ -155,7 +155,7 @@ public class CMainSceneAppleCreator : MonoBehaviour
     /// <summary>
     /// AppleCreator를 비활성화한다.
     /// </summary>
-    private void DisableAppleCreator()
+    private void InActiveAppleCreator()
     {
         gameObject.SetActive(false);
     }
