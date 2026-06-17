@@ -26,21 +26,12 @@ public class CGameSceneAppleSelector : MonoBehaviour
 
         dragController.OnDrag += Select;
         dragController.OnDragEnd += CheckScore;
-
-        GameManager.Instance.OnGameStart += ActiveAppleSelector;
-
-        gameObject.SetActive(false);
     }
 
     private void OnDestroy()
     {
         dragController.OnDrag -= Select;
         dragController.OnDragEnd -= CheckScore;
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnGameStart -= ActiveAppleSelector;
-        }
     }
 
     /// <summary>
@@ -105,13 +96,5 @@ public class CGameSceneAppleSelector : MonoBehaviour
         {
             _listSelectedApple[i].SetMaterial(matDefault);
         }
-    }
-
-    /// <summary>
-    /// AppleSelector를 활성화한다.
-    /// </summary>
-    private void ActiveAppleSelector()
-    {
-        gameObject.SetActive(true);
     }
 }

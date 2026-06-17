@@ -32,14 +32,6 @@ public class CDragController : MonoBehaviour
         _camMain = Camera.main;
     }
 
-    private void Start()
-    {
-        GameManager.Instance.OnGameStart += OnGameStart;
-        GameManager.Instance.OnGameEnd += OnGameEnd;
-
-        gameObject.SetActive(false);
-    }
-
     private void OnEnable()
     {
         EnhancedTouch.EnhancedTouchSupport.Enable();
@@ -48,15 +40,6 @@ public class CDragController : MonoBehaviour
     private void OnDisable()
     {
         EnhancedTouch.EnhancedTouchSupport.Disable();
-    }
-
-    private void OnDestroy()
-    {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnGameStart -= OnGameStart;
-            GameManager.Instance.OnGameEnd -= OnGameEnd;
-        }
     }
 
     private void Update()
@@ -154,21 +137,5 @@ public class CDragController : MonoBehaviour
     private Vector2 GetWorldPosition()
     {
         return _camMain.ScreenToWorldPoint(Pointer.current.position.ReadValue());
-    }
-
-    /// <summary>
-    /// 게임 시작시 동작
-    /// </summary>
-    private void OnGameStart()
-    {
-        gameObject.SetActive(true);
-    }
-
-    /// <summary>
-    /// 게임 종료시 동작
-    /// </summary>
-    private void OnGameEnd()
-    {
-        gameObject.SetActive(false);
     }
 }

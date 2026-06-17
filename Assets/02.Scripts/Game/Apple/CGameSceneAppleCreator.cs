@@ -33,21 +33,6 @@ public class CGameSceneAppleCreator : MonoBehaviour
         NumberSetting();
     }
 
-    private void Start()
-    {
-        GameManager.Instance.OnGameStart += ActiveAppleCreator;
-
-        gameObject.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnGameStart -= ActiveAppleCreator;
-        }
-    }
-
     /// <summary>
     /// Apple Grid 정렬할 공간 위치값 설정
     /// </summary>
@@ -163,14 +148,6 @@ public class CGameSceneAppleCreator : MonoBehaviour
             _nArrNumber[i] = _nArrNumber[randIndex];
             _nArrNumber[randIndex] = temp;
         }
-    }
-
-    /// <summary>
-    /// AppleCreator를 활성화
-    /// </summary>
-    private void ActiveAppleCreator()
-    {
-        gameObject.SetActive(true);
     }
 
     /// <summary>
