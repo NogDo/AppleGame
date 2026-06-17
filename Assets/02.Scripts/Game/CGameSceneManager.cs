@@ -1,10 +1,21 @@
+using System;
 using UnityEngine;
 
 public class CGameSceneManager : MonoBehaviour
 {
+    #region public 변수
+
+    public event Action<int> OnScoreChanged;
+
+    #endregion
+
     #region private 변수
 
+    // 게임씬 오브젝트
     [SerializeField] private GameObject[] oArrGameSceneObject;
+
+    // 점수 관련
+    private int _nCurrentScore;
 
     #endregion
 
@@ -35,5 +46,19 @@ public class CGameSceneManager : MonoBehaviour
         {
             oArrGameSceneObject[i].SetActive(true);
         }
+
+        _nCurrentScore = 0;
+    }
+
+    /// <summary>
+    /// 점수를 더함
+    /// 점수 변경 이벤트를 실행
+    /// </summary>
+    /// <param name="score">얻은 점수</param>
+    public void AddScore(int score)
+    {
+        _nCurrentScore += score;
+
+        OnScoreChanged?.Invoke(_nCurrentScore);
     }
 }

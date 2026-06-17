@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CGameSceneAppleSelector : MonoBehaviour
@@ -14,8 +15,10 @@ public class CGameSceneAppleSelector : MonoBehaviour
     [SerializeField] private Material matDefault;
     [SerializeField] private Material matOutline;
 
-    private CGameSceneApple[] arrApple;
+    [Header ("점수 관련")]
+    [SerializeField] private CGameSceneManager gameSceneManager;
 
+    private CGameSceneApple[] arrApple;
     private List<CGameSceneApple> _listSelectedApple = new List<CGameSceneApple>(GameRule.GameSceneAppleCount);
 
     #endregion
@@ -88,7 +91,7 @@ public class CGameSceneAppleSelector : MonoBehaviour
                 _listSelectedApple[i].gameObject.SetActive(false);
             }
 
-            // TODO : 나중에 Score에 점수 추가 로직 구현
+            gameSceneManager.AddScore(_listSelectedApple.Count);
         }
 
         // Material을 일반으로 되돌리기
