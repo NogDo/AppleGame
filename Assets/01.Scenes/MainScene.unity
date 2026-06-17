@@ -1478,8 +1478,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c24509504e503642a4f0ad4a14e14a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIPanelControl
-  oMainPanel: {fileID: 1464621489}
-  oGamePanel: {fileID: 991688865}
+  oArrMainPanel:
+  - {fileID: 1464621489}
+  - {fileID: 314075585}
+  oArrGamePanel:
+  - {fileID: 991688865}
 --- !u!1 &1284621285
 GameObject:
   m_ObjectHideFlags: 0
