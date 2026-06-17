@@ -22,8 +22,18 @@ public class CGameSceneManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStart += OnGameStart;
+        GameManager.Instance.OnReturnMain += ReturnMain;
 
         Init();
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameStart -= OnGameStart;
+            GameManager.Instance.OnReturnMain -= ReturnMain;
+        }
     }
 
     /// <summary>
@@ -48,6 +58,17 @@ public class CGameSceneManager : MonoBehaviour
         }
 
         _nCurrentScore = 0;
+    }
+
+    /// <summary>
+    /// 게임 종료 후 메인 패널로 돌아갈때 게임씬 오브젝트들 비활성화
+    /// </summary>
+    private void ReturnMain()
+    {
+        for (int i = 0; i < oArrGameSceneObject.Length; i++)
+        {
+            oArrGameSceneObject[i].SetActive(false);
+        }
     }
 
     /// <summary>

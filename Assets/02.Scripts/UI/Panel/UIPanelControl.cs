@@ -13,6 +13,7 @@ public class UIPanelControl : MonoBehaviour
     {
         GameManager.Instance.OnGameStart += OnGameStart;
         GameManager.Instance.OnGameEnd += OnGameEnd;
+        GameManager.Instance.OnReturnMain += OnReturnMain;
 
         Init();
     }
@@ -23,6 +24,7 @@ public class UIPanelControl : MonoBehaviour
         {
             GameManager.Instance.OnGameStart -= OnGameStart;
             GameManager.Instance.OnGameEnd -= OnGameEnd;
+            GameManager.Instance.OnReturnMain -= OnReturnMain;
         }
     }
 
@@ -64,5 +66,21 @@ public class UIPanelControl : MonoBehaviour
     private void OnGameEnd()
     {
         
+    }
+
+    /// <summary>
+    /// 메인으로 돌아갔을 때 패널 컨트롤
+    /// </summary>
+    private void OnReturnMain()
+    {
+        for (int i = 0; i < oArrMainPanel.Length;i ++)
+        {
+            oArrMainPanel[i].SetActive(true);
+        }
+
+        for (int i = 0; i < oArrGamePanel.Length; i++)
+        {
+            oArrGamePanel[i].SetActive(false);
+        }
     }
 }

@@ -10,6 +10,7 @@ public class GameManager : BaseSingleton<GameManager>
 
     public event Action OnGameStart;
     public event Action OnGameEnd;
+    public event Action OnReturnMain;
 
     #endregion
 
@@ -48,5 +49,13 @@ public class GameManager : BaseSingleton<GameManager>
     public void GameEnd()
     {
         OnGameEnd?.Invoke();
+    }
+
+    /// <summary>
+    /// 메인 패널로 복귀
+    /// </summary>
+    public void ReturnMain()
+    {
+        OnReturnMain?.Invoke();
     }
 }

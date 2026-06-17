@@ -33,11 +33,6 @@ public class CMainSceneAppleCreator : MonoBehaviour
         NumberSetting();
     }
 
-    private void Start()
-    {
-        GameManager.Instance.OnGameStart += InActiveAppleCreator;
-    }
-
     /// <summary>
     /// Anchor를 설정한다.
     /// </summary>
@@ -150,13 +145,5 @@ public class CMainSceneAppleCreator : MonoBehaviour
             _nArrNumber[i] = _nArrNumber[randIndex];
             _nArrNumber[randIndex] = temp;
         }
-    }
-
-    /// <summary>
-    /// AppleCreator를 비활성화한다.
-    /// </summary>
-    private void InActiveAppleCreator()
-    {
-        gameObject.SetActive(false);
     }
 }
