@@ -11,6 +11,7 @@ public class GameManager : BaseSingleton<GameManager>
     public event Action OnGameStart;
     public event Action OnGameEnd;
     public event Action OnReturnMain;
+    public event Action OnRetry;
 
     #endregion
 
@@ -57,5 +58,13 @@ public class GameManager : BaseSingleton<GameManager>
     public void ReturnMain()
     {
         OnReturnMain?.Invoke();
+    }
+
+    /// <summary>
+    /// 게임 다시시작
+    /// </summary>
+    public void Retry()
+    {
+        OnRetry?.Invoke();
     }
 }

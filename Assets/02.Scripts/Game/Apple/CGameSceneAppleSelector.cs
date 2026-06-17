@@ -31,6 +31,7 @@ public class CGameSceneAppleSelector : MonoBehaviour
         dragController.OnDragEnd += CheckScore;
 
         GameManager.Instance.OnGameEnd += SetAppleDefaultMaterial;
+        GameManager.Instance.OnRetry += SetAppleDefaultMaterial;
     }
 
     private void OnDestroy()
@@ -41,6 +42,7 @@ public class CGameSceneAppleSelector : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnGameEnd -= SetAppleDefaultMaterial;
+            GameManager.Instance.OnRetry -= SetAppleDefaultMaterial;
         }
     }
 

@@ -40,8 +40,21 @@ public class CDragController : MonoBehaviour
     private void OnDisable()
     {
         EnhancedTouch.EnhancedTouchSupport.Disable();
-        
-        _nActiveFingerId = -1;
+
+        ResetValue();
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnRetry += ResetValue;
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnRetry -= ResetValue;
+        }
     }
 
     private void Update()
@@ -139,5 +152,13 @@ public class CDragController : MonoBehaviour
     private Vector2 GetWorldPosition(Vector2 screenPosition)
     {
         return _camMain.ScreenToWorldPoint(screenPosition);
+    }
+
+    /// <summary>
+    /// 드래그 관련 변수 초기화
+    /// </summary>
+    private void ResetValue()
+    {
+        _nActiveFingerId = -1;
     }
 }

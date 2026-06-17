@@ -19,7 +19,7 @@ public class UIGamePanelButton : MonoBehaviour
 
         btnRetry.onClick.AddListener(() =>
         {
-            
+            GameManager.Instance.Retry();
         });
     }
 }

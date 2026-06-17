@@ -24,6 +24,19 @@ public class CTimerController : MonoBehaviour
         StartTimer();
     }
 
+    private void Start()
+    {
+        GameManager.Instance.OnRetry += StartTimer;
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnRetry -= StartTimer;
+        }
+    }
+
     private void Update()
     {
         // 게임을 진행중이지 않으면 업데이트 X

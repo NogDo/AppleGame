@@ -22,6 +22,7 @@ public class CGameSceneManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStart += OnGameStart;
+        GameManager.Instance.OnRetry += ResetValue;
         GameManager.Instance.OnReturnMain += ReturnMain;
 
         Init();
@@ -32,6 +33,7 @@ public class CGameSceneManager : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnGameStart -= OnGameStart;
+            GameManager.Instance.OnRetry -= ResetValue;
             GameManager.Instance.OnReturnMain -= ReturnMain;
         }
     }
@@ -57,7 +59,17 @@ public class CGameSceneManager : MonoBehaviour
             oArrGameSceneObject[i].SetActive(true);
         }
 
+        ResetValue();
+    }
+
+    /// <summary>
+    /// 게임씬 관련 변수 초기화
+    /// </summary>
+    private void ResetValue()
+    {
         _nCurrentScore = 0;
+
+        OnScoreChanged?.Invoke(_nCurrentScore);
     }
 
     /// <summary>
