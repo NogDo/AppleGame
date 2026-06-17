@@ -113,6 +113,7 @@ public class CGameSceneAppleCreator : MonoBehaviour
         for (int i = 0; i < _nArrNumber.Length; i++)
         {
             _arrApplePool[i].Numbering(_nArrNumber[i]);
+            _arrApplePool[i].gameObject.SetActive(true);
         }
     }
 

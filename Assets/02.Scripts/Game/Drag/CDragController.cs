@@ -40,6 +40,8 @@ public class CDragController : MonoBehaviour
     private void OnDisable()
     {
         EnhancedTouch.EnhancedTouchSupport.Disable();
+        
+        _nActiveFingerId = -1;
     }
 
     private void Update()
@@ -54,7 +56,7 @@ public class CDragController : MonoBehaviour
             if (_nActiveFingerId == -1 && touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
             {
                 _nActiveFingerId = touch.finger.index;
-                DragStart();
+                DragStart(touch.screenPosition);
             }
             // 첫 터치만 드래그 처리
             else if (touch.finger.index == _nActiveFingerId)
@@ -62,12 +64,12 @@ public class CDragController : MonoBehaviour
                 // 드래그
                 if (touch.phase == UnityEngine.InputSystem.TouchPhase.Moved)
                 {
-                    Drag();
+                    Drag(touch.screenPosition);
                 }
                 // 드래그 종료
                 else if (touch.phase == UnityEngine.InputSystem.TouchPhase.Ended)
                 {
-                    DragEnd();
+                    DragEnd(touch.screenPosition);
 
                     _nActiveFingerId = -1;
                 }
@@ -79,10 +81,10 @@ public class CDragController : MonoBehaviour
     /// 드래그 시작,
     /// 첫 터치 위치를 저장
     /// </summary>
-    private void DragStart()
+    private void DragStart(Vector2 screenPosition)
     {
-        _v2StartPosition = GetWorldPosition();
-        _v2EndPosition = GetWorldPosition();
+        _v2StartPosition = GetWorldPosition(screenPosition);
+        _v2EndPosition = GetWorldPosition(screenPosition);
 
         sprDragArea.gameObject.SetActive(true);
     }
@@ -90,9 +92,9 @@ public class CDragController : MonoBehaviour
     /// <summary>
     /// 드래그
     /// </summary>
-    private void Drag()
+    private void Drag(Vector2 screenPosition)
     {
-        _v2EndPosition = GetWorldPosition();
+        _v2EndPosition = GetWorldPosition(screenPosition);
 
         Vector2 min = Vector2.Min(_v2StartPosition, _v2EndPosition);
         Vector2 max = Vector2.Max(_v2StartPosition, _v2EndPosition);
@@ -107,9 +109,9 @@ public class CDragController : MonoBehaviour
     /// 드래그 종료,
     /// 마지막 터치 위치를 저장 및 처리
     /// </summary>
-    private void DragEnd()
+    private void DragEnd(Vector2 screenPosition)
     {
-        _v2EndPosition = GetWorldPosition();
+        _v2EndPosition = GetWorldPosition(screenPosition);
 
         Vector2 min = Vector2.Min(_v2StartPosition, _v2EndPosition);
         Vector2 max = Vector2.Max(_v2StartPosition, _v2EndPosition);
@@ -134,8 +136,8 @@ public class CDragController : MonoBehaviour
     /// <summary>
     /// 포인터 좌표를 월드 좌표로 변환
     /// </summary>
-    private Vector2 GetWorldPosition()
+    private Vector2 GetWorldPosition(Vector2 screenPosition)
     {
-        return _camMain.ScreenToWorldPoint(Pointer.current.position.ReadValue());
+        return _camMain.ScreenToWorldPoint(screenPosition);
     }
 }

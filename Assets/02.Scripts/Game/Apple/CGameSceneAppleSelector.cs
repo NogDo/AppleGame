@@ -29,12 +29,19 @@ public class CGameSceneAppleSelector : MonoBehaviour
 
         dragController.OnDrag += Select;
         dragController.OnDragEnd += CheckScore;
+
+        GameManager.Instance.OnGameEnd += SetAppleDefaultMaterial;
     }
 
     private void OnDestroy()
     {
         dragController.OnDrag -= Select;
         dragController.OnDragEnd -= CheckScore;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameEnd -= SetAppleDefaultMaterial;
+        }
     }
 
     /// <summary>
@@ -98,6 +105,17 @@ public class CGameSceneAppleSelector : MonoBehaviour
         for (int i = 0; i < _listSelectedApple.Count; i++)
         {
             _listSelectedApple[i].SetMaterial(matDefault);
+        }
+    }
+
+    /// <summary>
+    /// 사과의 Material을 전부 기본으로 설정
+    /// </summary>
+    private void SetAppleDefaultMaterial()
+    {
+        for (int i = 0; i < arrApple.Length; i++)
+        {
+            arrApple[i].SetMaterial(matDefault);
         }
     }
 }
