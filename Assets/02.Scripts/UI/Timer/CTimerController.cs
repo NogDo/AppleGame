@@ -19,17 +19,9 @@ public class CTimerController : MonoBehaviour
 
     #endregion
 
-    private void Start()
+    private void OnEnable()
     {
-        GameManager.Instance.OnGameStart += StartTimer;
-    }
-
-    private void OnDestroy()
-    {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnGameStart -= StartTimer;
-        }
+        StartTimer();
     }
 
     private void Update()
@@ -60,6 +52,8 @@ public class CTimerController : MonoBehaviour
     private void UpdateTime()
     {
         _fCurrentTime -= Time.deltaTime;
+        // 음수값 처리
+        _fCurrentTime = Mathf.Max(0, _fCurrentTime);
 
         OnValueChanged?.Invoke(_fCurrentTime);
     }
@@ -75,6 +69,7 @@ public class CTimerController : MonoBehaviour
             return;
         }
 
+        _isRunning = false;
         GameManager.Instance.GameEnd();
     }
 }
